@@ -1,0 +1,10 @@
+name: doko_shiny
+title:
+username:
+account: wilhelm
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2125595
+bundleId: 3019867
+url: https://wilhelm.shinyapps.io/doko_shiny/
+when: 1586998846.08934
