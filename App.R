@@ -5,6 +5,8 @@ library(ggpubr)
 library(ggsci)
 
 
+##### FUNCTIONS #####
+
 aggregate <- function(c){
   n <- c(c[1])
   for(i in 2:(length(c))){
@@ -14,16 +16,12 @@ aggregate <- function(c){
 }
 
 
-
-
-
 ##### UI #####
 
 ui <- fluidPage(
   
   titlePanel("DoKo shiny"),
   
-    
       h4("Table"),
       tableOutput("table"),
       hr(),
@@ -54,8 +52,6 @@ server <- function(input, output){
 
   output$table <- renderTable({
     
-    #if(is.null("https://docs.google.com/spreadsheets/d/1doY9SSvwP2TPIigs6FqwRC4VRK23nnhedbAZzAWJe4o/gviz/tq?tqx=out:csv&sheet=Punkteliste")) return(NULL)
-    
     d <- read_csv("https://docs.google.com/spreadsheets/d/1doY9SSvwP2TPIigs6FqwRC4VRK23nnhedbAZzAWJe4o/gviz/tq?tqx=out:csv&sheet=Punkteliste", na = "-") %>%
       mutate(date = as.Date(Datum, "%d.%m.%y"))
     
@@ -63,8 +59,6 @@ server <- function(input, output){
     })
   
   output$plot1 <- renderPlot({
-    
-    #if(is.null("https://docs.google.com/spreadsheets/d/1doY9SSvwP2TPIigs6FqwRC4VRK23nnhedbAZzAWJe4o/gviz/tq?tqx=out:csv&sheet=Punkteliste")) return(NULL)
     
     d <- read_csv("https://docs.google.com/spreadsheets/d/1doY9SSvwP2TPIigs6FqwRC4VRK23nnhedbAZzAWJe4o/gviz/tq?tqx=out:csv&sheet=Punkteliste", na = "-") %>%
       mutate(date = as.Date(Datum, "%d.%m.%y")) %>%
@@ -74,7 +68,6 @@ server <- function(input, output){
       summarize(sum = sum(points, na.rm = T)) %>%
       mutate(col = factor(sign(sum+0.1))) 
 
-    
     p <- ggplot(d, aes(x = player, y = sum, fill = col))+
       geom_bar(stat = 'identity')+
       geom_text(aes(y = sum + 7.5*as.numeric(as.character(col)), label = round(sum,2)))+
@@ -91,9 +84,7 @@ server <- function(input, output){
   
   
   output$plot2 <- renderPlot({
-    
-    #if(is.null("https://docs.google.com/spreadsheets/d/1doY9SSvwP2TPIigs6FqwRC4VRK23nnhedbAZzAWJe4o/gviz/tq?tqx=out:csv&sheet=Punkteliste")) return(NULL)
-    
+  
     d <- read_csv("https://docs.google.com/spreadsheets/d/1doY9SSvwP2TPIigs6FqwRC4VRK23nnhedbAZzAWJe4o/gviz/tq?tqx=out:csv&sheet=Punkteliste", na = "-") %>%
       mutate(date = as.Date(Datum, "%d.%m.%y")) %>%
       select(-Datum) %>%
@@ -118,8 +109,6 @@ server <- function(input, output){
   })
   
   output$plot3 <- renderPlot({
-    
-    #if(is.null("https://docs.google.com/spreadsheets/d/1doY9SSvwP2TPIigs6FqwRC4VRK23nnhedbAZzAWJe4o/gviz/tq?tqx=out:csv&sheet=Punkteliste")) return(NULL)
     
     d <- read_csv("https://docs.google.com/spreadsheets/d/1doY9SSvwP2TPIigs6FqwRC4VRK23nnhedbAZzAWJe4o/gviz/tq?tqx=out:csv&sheet=Punkteliste", na = "-") %>%
       mutate(date = as.Date(Datum, "%d.%m.%y")) %>%
@@ -153,8 +142,6 @@ server <- function(input, output){
   
   output$plot4 <- renderPlot({
     
-    #if(is.null("https://docs.google.com/spreadsheets/d/1doY9SSvwP2TPIigs6FqwRC4VRK23nnhedbAZzAWJe4o/gviz/tq?tqx=out:csv&sheet=Punkteliste")) return(NULL)
-    
     d <- read_csv("https://docs.google.com/spreadsheets/d/1doY9SSvwP2TPIigs6FqwRC4VRK23nnhedbAZzAWJe4o/gviz/tq?tqx=out:csv&sheet=Punkteliste", na = "-") %>%
       mutate(date = as.Date(Datum, "%d.%m.%y")) %>%
       select(-Datum) %>%
@@ -163,7 +150,6 @@ server <- function(input, output){
       mutate(points = replace_na(points, 0)) %>%
       summarize(max = max(points),
                 min = min(points))
-    
     
     p <- ggplot(d, aes(x = player, y = max, fill = player))+
       geom_bar(stat = 'identity')+
@@ -177,7 +163,7 @@ server <- function(input, output){
             legend.position = 'none')+
       coord_flip()+
       scale_y_continuous(expand = c(0,0), limits = c(0,max(d$max)*1.05))
-    p
+    
     return(p)
     
   })
@@ -187,8 +173,6 @@ server <- function(input, output){
   
   output$plot5 <- renderPlot({
     
-    #if(is.null("https://docs.google.com/spreadsheets/d/1doY9SSvwP2TPIigs6FqwRC4VRK23nnhedbAZzAWJe4o/gviz/tq?tqx=out:csv&sheet=Punkteliste")) return(NULL)
-    
     d <- read_csv("https://docs.google.com/spreadsheets/d/1doY9SSvwP2TPIigs6FqwRC4VRK23nnhedbAZzAWJe4o/gviz/tq?tqx=out:csv&sheet=Punkteliste", na = "-") %>%
       mutate(date = as.Date(Datum, "%d.%m.%y")) %>%
       select(-Datum) %>%
@@ -197,7 +181,6 @@ server <- function(input, output){
       mutate(points = replace_na(points, 0)) %>%
       summarize(max = max(points),
                 min = min(points))
-    
     
     p <- ggplot(d, aes(x = player, y = min, fill = player))+
       geom_bar(stat = 'identity')+
@@ -211,7 +194,7 @@ server <- function(input, output){
             legend.position = 'none')+
       coord_flip()+
       scale_y_continuous(expand = c(0,0), limits = c(min(d$min)*1.05,0))
-    p
+    
     return(p)
     
   })
